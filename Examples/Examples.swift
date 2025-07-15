@@ -152,7 +152,7 @@ enum Examples {
 
         for invalidData in invalidDataSets {
             do {
-                let xid = try XID(data: invalidData)
+                _ = try XID(data: invalidData)
                 print("Unexpectedly created XID from \(invalidData.count) bytes")
             } catch XIDError.invalidLength {
                 print("✓ Correctly rejected data with \(invalidData.count) bytes")
@@ -171,7 +171,7 @@ enum Examples {
         let numberOfTasks = 5
         let xidsPerTask = 1000
 
-        let startTime = CFAbsoluteTimeGetCurrent()
+        let startTime = ContinuousClock.now
 
         let allXIDs = await withTaskGroup(of: [XID].self, returning: [XID].self) { group in
             for taskIndex in 0..<numberOfTasks {
@@ -189,7 +189,7 @@ enum Examples {
             return result
         }
 
-        let endTime = CFAbsoluteTimeGetCurrent()
+        let endTime = ContinuousClock.now
 
         let uniqueXIDs = Set(allXIDs)
         let totalGenerated = numberOfTasks * xidsPerTask
@@ -198,9 +198,10 @@ enum Examples {
         print("  - Total XIDs generated: \(totalGenerated)")
         print("  - Unique XIDs: \(uniqueXIDs.count)")
         print("  - Duplicates: \(totalGenerated - uniqueXIDs.count)")
-        print("  - Time taken: \(String(format: "%.3f", endTime - startTime)) seconds")
+        let duration = endTime - startTime
+        print("  - Time taken: \(String(format: "%.3f", duration.components.seconds)) seconds")
         print(
-            "  - Rate: \(String(format: "%.0f", Double(totalGenerated) / (endTime - startTime))) XIDs/second"
+            "  - Rate: \(String(format: "%.0f", Double(totalGenerated) / Double(duration.components.seconds))) XIDs/second"
         )
 
         print()
@@ -213,42 +214,45 @@ enum Examples {
         let iterations = 10_000
 
         // Generation performance
-        let generationStart = CFAbsoluteTimeGetCurrent()
+        let generationStart = ContinuousClock.now
         let xids = (0..<iterations).map { _ in XID() }
-        let generationEnd = CFAbsoluteTimeGetCurrent()
+        let generationEnd = ContinuousClock.now
 
         print("Generation Performance:")
+        let generationDuration = generationEnd - generationStart
         print(
-            "  - Generated \(iterations) XIDs in \(String(format: "%.3f", generationEnd - generationStart)) seconds"
+            "  - Generated \(iterations) XIDs in \(String(format: "%.3f", generationDuration.components.seconds)) seconds"
         )
         print(
-            "  - Rate: \(String(format: "%.0f", Double(iterations) / (generationEnd - generationStart))) XIDs/second"
+            "  - Rate: \(String(format: "%.0f", Double(iterations) / Double(generationDuration.components.seconds))) XIDs/second"
         )
 
         // String encoding performance
-        let encodingStart = CFAbsoluteTimeGetCurrent()
+        let encodingStart = ContinuousClock.now
         let strings = xids.map { $0.string }
-        let encodingEnd = CFAbsoluteTimeGetCurrent()
+        let encodingEnd = ContinuousClock.now
 
         print("String Encoding Performance:")
+        let encodingDuration = encodingEnd - encodingStart
         print(
-            "  - Encoded \(iterations) XIDs in \(String(format: "%.3f", encodingEnd - encodingStart)) seconds"
+            "  - Encoded \(iterations) XIDs in \(String(format: "%.3f", encodingDuration.components.seconds)) seconds"
         )
         print(
-            "  - Rate: \(String(format: "%.0f", Double(iterations) / (encodingEnd - encodingStart))) encodings/second"
+            "  - Rate: \(String(format: "%.0f", Double(iterations) / Double(encodingDuration.components.seconds))) encodings/second"
         )
 
         // String decoding performance
-        let decodingStart = CFAbsoluteTimeGetCurrent()
+        let decodingStart = ContinuousClock.now
         let decodedXIDs = strings.compactMap { try? XID(string: $0) }
-        let decodingEnd = CFAbsoluteTimeGetCurrent()
+        let decodingEnd = ContinuousClock.now
 
         print("String Decoding Performance:")
+        let decodingDuration = decodingEnd - decodingStart
         print(
-            "  - Decoded \(decodedXIDs.count) XIDs in \(String(format: "%.3f", decodingEnd - decodingStart)) seconds"
+            "  - Decoded \(decodedXIDs.count) XIDs in \(String(format: "%.3f", decodingDuration.components.seconds)) seconds"
         )
         print(
-            "  - Rate: \(String(format: "%.0f", Double(decodedXIDs.count) / (decodingEnd - decodingStart))) decodings/second"
+            "  - Rate: \(String(format: "%.0f", Double(decodedXIDs.count) / Double(decodingDuration.components.seconds))) decodings/second"
         )
 
         print()
