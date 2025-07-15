@@ -4,7 +4,7 @@ A Swift implementation of [XID](https://github.com/rs/xid) - a globally unique i
 
 [![CI](https://github.com/thoven87/swift-xid/workflows/CI/badge.svg)](https://github.com/thoven87/swift-xid/actions)
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fthoven87%2Fswift-xid%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/thoven87/swift-xid)
-[![(https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fthoven87%2Fswift-xid%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/thoven87/swift-xid)](https://swift.org)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fthoven87%2Fswift-xid%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/thoven87/swift-xid)
 [![Swift Package Manager](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
 [![Swift Concurrency](https://img.shields.io/badge/Swift%20Concurrency-Ready-blue.svg)](https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html)
 
